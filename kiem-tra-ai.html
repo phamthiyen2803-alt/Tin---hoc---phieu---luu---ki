@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kiểm tra AI Mây</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg,#dbeafe,#f3e8ff);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      margin: 0;
+    }
+    .card {
+      background: white;
+      padding: 28px;
+      border-radius: 22px;
+      width: min(90%,500px);
+      box-shadow: 0 12px 35px #0002;
+    }
+    h1 { color: #6d28d9; }
+    textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 12px;
+      background: #7c3aed;
+      color: white;
+      border: 0;
+      padding: 13px 22px;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    button:disabled { opacity: .6; }
+    #result {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f5f3ff;
+      border-radius: 12px;
+      white-space: pre-wrap;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>🤖 Trò chuyện cùng AI Mây</h1>
+    <p>Hãy hỏi Mây một câu về Tin học lớp 3!</p>
+
+    <textarea id="question" rows="3">Chuột máy tính dùng để làm gì?</textarea>
+
+    <button id="send" onclick="askMay()">Gửi câu hỏi</button>
+
+    <div id="result" role="status" aria-live="polite">
+      Mây đang chờ câu hỏi của em!
+    </div>
+  </div>
+
+  <script>
+    async function askMay() {
+      const question = document.getElementById("question").value.trim();
+      const result = document.getElementById("result");
+      const button = document.getElementById("send");
+
+      if (!question) {
+        result.textContent = "Em hãy nhập câu hỏi nhé!";
+        return;
+      }
+
+      button.disabled = true;
+      result.textContent = "⏳ AI Mây đang suy nghĩ...";
+
+      try {
+        const response = await fetch("/api/chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ question })
+        });
+
+        const data = await response.json();
+
+        result.textContent = response.ok
+          ? "🤖 Mây: " + (data.answer || "Chưa có câu trả lời.")
+          : "Có lỗi: " + (data.error || "Không xác định.");
+
+      } catch (error) {
+        result.textContent = "Không kết nối được máy chủ AI Mây.";
+      } finally {
+        button.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>
