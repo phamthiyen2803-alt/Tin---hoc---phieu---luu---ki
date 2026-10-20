@@ -9,6 +9,17 @@ export default async function handler(req, res) {
   }
 
   const question = req.body?.question;
+  // Chi nhan du lieu hoc tap an danh, khong nhan ten hay thong tin hoc sinh.
+  const rawContext = req.body?.learningContext;
+  const learningContext = rawContext && typeof rawContext === "object" && !Array.isArray(rawContext)
+    ? {
+        score: Number.isInteger(rawContext.score) && rawContext.score >= 0 && rawContext.score <= 20 ? rawContext.score : null,
+        total: Number.isInteger(rawContext.total) && rawContext.total >= 1 && rawContext.total <= 20 ? rawContext.total : null,
+        mistakes: Array.isArray(rawContext.mistakes)
+          ? rawContext.mistakes.filter(x => typeof x === "string").slice(0, 5).map(x => x.slice(0, 70))
+          : []
+      }
+    : null;
 
   if (
     typeof question !== "string" ||
@@ -58,7 +69,10 @@ export default async function handler(req, res) {
             },
             contents: [{
               role: "user",
-              parts: [{ text: question.trim() }]
+              parts: [{ text: question.trim() + (learningContext && (learningContext.mistakes.length || learningContext.score !== null)
+              ? "\\n\\nThong tin bai tap gan nhat (an danh, chi de goi y): " + JSON.stringify(learningContext) +
+                "\\nHay dua ra 1 goi y cu the theo loi sai, 1 vi du tuong tu va 1 bai tap ngan. Khong khang dinh da danh gia toan bo nang luc hoc sinh."
+              : "") }]
             }],
             generationConfig: {
               maxOutputTokens: 400
