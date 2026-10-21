@@ -156,9 +156,15 @@ body{background:radial-gradient(circle at 15% 4%,#bceaff 0,transparent 34%),radi
 .grade-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:19px;margin:26px 0}.grade-card{min-height:280px;padding:24px 18px;border:3px solid white;border-radius:29px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;box-shadow:0 11px 24px #657cc52e;transition:transform .2s,box-shadow .2s;text-align:center}.grade-card:hover{transform:translateY(-7px);box-shadow:0 20px 27px #657cc546}.grade3{background:linear-gradient(140deg,#dcf6ff,#bce4ff)}.grade4{background:linear-gradient(140deg,#f1e5ff,#ded0ff)}.grade5{background:linear-gradient(140deg,#fff1d8,#ffe0b9)}.grade-art{font-size:65px;filter:drop-shadow(0 5px 3px #6578a535)}.grade-card strong{font-size:27px;color:#314c8c}.grade-card small{font-size:13px;color:#697ba0;font-weight:700}.grade-card em{font-style:normal;background:white;border-radius:30px;padding:11px 15px;color:#5963a6;font-weight:850;font-size:13px}.grade-note{text-align:center;margin:8px auto 25px;color:#6b7b9d;font-size:13px}
 .grade-coming{text-align:center;max-width:740px;margin:20px auto;padding:60px 35px;background:linear-gradient(140deg,#eaf9ff,#f5e9ff);border-radius:27px;border:2px solid white;box-shadow:0 12px 27px #7987c122}.grade-coming-icon{font-size:76px}.grade-coming h2{font-size:30px;color:#3d5290}.grade-coming p{line-height:1.8;color:#617396}.grade-coming-caption{font-size:13px;margin:20px auto;color:#865eaa;font-weight:800}.grade-coming button{margin-top:13px}
 @media(max-width:720px){.grade-cards{grid-template-columns:1fr}.grade-card{min-height:210px}.grade-art{font-size:50px}.grade-welcome{padding:30px 14px}.grade-coming{padding:35px 20px}}
+
+/* Ban do va bai hoc Tin hoc 4 - du lieu tach khoi Tin hoc 3 */
+.g4-header{text-align:center;border-radius:28px;padding:32px;background:linear-gradient(125deg,#e7fcff,#efe7ff,#ffeeda);border:2px solid white}.g4-kicker{color:#7565b0;font-size:12px;font-weight:850;letter-spacing:1px}.g4-header h1{font-size:clamp(28px,4vw,44px);color:#324f9d;margin:11px 0}.g4-header p{color:#6b7ba0;line-height:1.7}.g4-stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.g4-stats span{border-radius:30px;padding:10px 14px;background:white;font-size:12px;font-weight:800;color:#6273b0}
+.g4-map{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:19px;margin:24px 0}.g4-world{padding:20px;border-radius:24px;background:linear-gradient(135deg,#f0f9ff,#faf4ff);border:2px solid #fff;box-shadow:0 9px 21px #6884b422}.g4-world:nth-child(3n+2){background:linear-gradient(130deg,#e9fff6,#fff5de)}.g4-world:nth-child(3n+3){background:linear-gradient(130deg,#fff0ef,#f3ebff)}.g4-world h3{font-size:17px;color:#344d88;margin:0 0 14px}.g4-steps{display:grid;gap:9px}.g4-step{display:flex;align-items:center;gap:12px;border:1px solid #dce4f8;border-radius:15px;background:white;padding:11px 12px;text-align:left;color:#3c548d;font-weight:700}.g4-step b{background:#dcedff;border-radius:13px;padding:10px;flex:0 0 47px;text-align:center}.g4-step:disabled{opacity:.67;cursor:not-allowed}.g4-step:not(:disabled):hover{background:#fff3d4;transform:translateY(-2px)}.g4-step small{display:block;font-size:11px;color:#788aaa;margin-top:3px}.g4-footer{display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:20px;color:#6579a3}.g4-lesson-head{display:flex;align-items:center;gap:16px;margin:25px 0}.g4-lesson-head>span{font-size:55px}.g4-lesson-head h2{margin:5px 0;color:#324f93}.g4-content{display:grid;grid-template-columns:1fr 1fr;gap:20px}.g4-learning,.g4-quiz{background:white;border:1px solid #e6eafa;border-radius:22px;padding:24px;box-shadow:0 8px 22px #7a84bd17}.g4-learning h3,.g4-quiz h3{color:#39569a}.g4-learning p,.g4-learning li{line-height:1.7;color:#52668d}.g4-quiz-top{display:flex;justify-content:space-between;gap:8px}.g4-quiz-top span{white-space:nowrap;color:#8566bf}.g4-quiz #g4-question{font-size:20px;line-height:1.45}.g4-choice{display:block;width:100%;text-align:left;border:2px solid #e3e9fa;background:#f7f9ff;border-radius:14px;margin:10px 0;padding:13px;color:#364f8d;font-weight:750}.g4-choice:disabled{cursor:default}.g4-choice.correct{border-color:#4ebd91;background:#e4f8ef}.g4-choice.wrong{border-color:#ea8b9b;background:#fff0f2}#g4-feedback{min-height:48px;line-height:1.55;color:#4c6291}
+@media(max-width:780px){.g4-map,.g4-content{grid-template-columns:1fr}.g4-header{padding:23px 15px}.g4-learning,.g4-quiz{padding:17px}}
 </style></head><body><div class="app"><header class="top"><div class="brand"><div class="brand-icon"><img src="co-yen-tin-hoc.jpg" alt="Huy hiệu Cô Yến Tin học" width="60" height="60" loading="eager"></div><div>TIN HỌC <span style="color:#6e5de2">PHIÊU LƯU KÝ</span><div class="muted" style="font-size:11px;font-weight:600">AI dẫn lối • Em tự khám phá</div></div></div><nav class="nav" aria-label="Điều hướng"><button class="active" data-page="grade-gateway">🏠 Chọn lớp</button><button data-page="home">🚀 Tin học 3</button><button data-page="map">🗺️ Bản đồ đảo</button><button data-page="learn">📚 Khám phá</button><button data-page="quiz">🎮 Thử thách</button><button data-page="sort">🧩 Phân loại</button><button data-page="assistant">🤖 AI Mây</button><button data-page="teacher">📊 Giáo viên</button></nav><button class="pill" id="stars">⭐ 0 sao</button></header>
 <main><section class="section shown" id="grade-gateway"><div class="grade-welcome"><span>🌈 CÙNG CÔ YẾN VÀ AI MÂY KHÁM PHÁ</span><h1>Chọn hành trình Tin học của em!</h1><p>Ba khối lớp – ba chặng phiêu lưu. Em hãy chọn đúng lớp để bắt đầu.</p></div><div class="grade-cards"><button class="grade-card grade3" data-goto="home"><span class="grade-art">🚀💻</span><strong>TIN HỌC 3</strong><small>16 bài học • 480 câu hỏi</small><em>🌟 Bắt đầu phiêu lưu →</em></button><button class="grade-card grade4" data-goto="grade-4"><span class="grade-art">🌐🧩</span><strong>TIN HỌC 4</strong><small>Hành trình khám phá tiếp theo</small><em>✨ Khám phá lớp 4 →</em></button><button class="grade-card grade5" data-goto="grade-5"><span class="grade-art">🤖🏆</span><strong>TIN HỌC 5</strong><small>Hành trình chinh phục mới</small><em>✨ Khám phá lớp 5 →</em></button></div><div class="grade-note">🤖 AI Mây đồng hành cùng em! Nội dung lớp 4 và lớp 5 sẽ được bổ sung theo SGK Kết nối tri thức với cuộc sống.</div></section>
-<section class="section" id="grade-4"><div class="grade-coming"><div class="grade-coming-icon">🌐</div><h2>Hành trình Tin học lớp 4</h2><p>Chúng mình đang chuẩn bị các bài học, câu hỏi và trò chơi dựa trên SGK Tin học 4 – Kết nối tri thức với cuộc sống.</p><div class="grade-coming-caption">📚 Chưa mở bài học • Đang xây dựng nội dung chính xác theo sách</div><button class="btn" data-goto="grade-gateway">← Chọn lớp khác</button></div></section>
+<section class="section" id="grade-4"><div class="g4-header"><div class="g4-kicker">🌈 CÙNG AI MÂY KHÁM PHÁ • KẾT NỐI TRI THỨC</div><h1>🚀 Hành trình Tin học 4</h1><p>Khám phá sáu thế giới tri thức theo đúng thứ tự trong sách giáo khoa. Chọn một bài đã mở để bắt đầu!</p><div class="g4-stats"><span>📚 6 chủ đề</span><span>🧭 16 bài chính + 12A, 12B</span><span>⭐ 2 bài mở đầu đã có hoạt động</span></div></div><div class="g4-map" id="grade4-map"></div><div class="g4-footer"><button class="btn secondary" data-goto="grade-gateway">← Chọn lớp khác</button><span>🤖 AI Mây đồng hành – Em tự mình khám phá!</span></div></section>
+<section class="section" id="grade4-lesson"><button class="btn secondary" data-goto="grade-4">← Trở lại hành trình Tin học 4</button><div class="g4-lesson-head"><span id="g4-lesson-icon">💻</span><div><div class="g4-kicker">TIN HỌC 4 • KHÁM PHÁ TRI THỨC</div><h2 id="g4-lesson-title">Bài học</h2></div></div><div class="g4-content"><div class="g4-learning"><h3>🔎 Kiến thức em cần nhớ</h3><div id="g4-summary"></div><h3>🌱 Tình huống thực tế</h3><p id="g4-example"></p><button class="btn secondary" id="g4-ai">🤖 Nhờ AI Mây giải thích bài học</button></div><div class="g4-quiz"><div class="g4-quiz-top"><h3>⭐ Thử thách sao vàng</h3><span id="g4-progress"></span></div><h3 id="g4-question"></h3><div id="g4-answers"></div><p id="g4-feedback" aria-live="polite"></p><button class="btn" id="g4-next" style="display:none">Câu tiếp theo →</button></div></div></section>
 <section class="section" id="grade-5"><div class="grade-coming"><div class="grade-coming-icon">🤖</div><h2>Hành trình Tin học lớp 5</h2><p>Chúng mình đang chuẩn bị các bài học, câu hỏi và trò chơi dựa trên SGK Tin học 5 – Kết nối tri thức với cuộc sống.</p><div class="grade-coming-caption">📚 Chưa mở bài học • Đang xây dựng nội dung chính xác theo sách</div><button class="btn" data-goto="grade-gateway">← Chọn lớp khác</button></div></section>
 <section class="section" id="home">
 <div class="quest-hero"><div class="quest-hero-copy"><div class="quest-eyebrow">✨ PHIÊU LƯU HỌC TẬP CÙNG AI MÂY</div><h1>16 trạm phiêu lưu<br>Chinh phục thế giới số!</h1><p>Cùng AI Mây khám phá 6 vùng đất tri thức, vượt qua thử thách, nhận sao vàng và trở thành nhà thám hiểm Tin học!</p><div class="hero-actions"><button class="btn" type="button" id="journey-start" data-goto="course16">🚀 Bắt đầu phiêu lưu</button><button class="btn secondary" data-goto="assistant">🤖 Gặp AI Mây</button></div></div><div class="quest-hero-art" aria-hidden="true"><div class="quest-orbit">✦　✧</div><div class="quest-mascot">🤖</div><span class="quest-bubble">Chào bạn! ✨</span></div></div>
@@ -394,4 +400,81 @@ $('play-again').addEventListener('click',()=>openPlay(playCurrent));
 
 renderWorlds16();
 renderJourneyHome16();
+
+/* Muc luc duoc doi chieu SGK Tin hoc 4 KNTT (trang 4), bai 12A/12B tach rieng */
+const worlds4=[
+["Máy tính và em","💻",[["1","Phần cứng và phần mềm máy tính"],["2","Gõ bàn phím đúng cách"]]],
+["Mạng máy tính và Internet","🌐",[["3","Thông tin trên trang web"]]],
+["Tổ chức lưu trữ, tìm kiếm và trao đổi thông tin","🗂️",[["4","Tìm kiếm thông tin trên Internet"],["5","Thao tác với tệp và thư mục"]]],
+["Đạo đức, pháp luật và văn hóa trong môi trường số","🛡️",[["6","Sử dụng phần mềm khi được phép"]]],
+["Ứng dụng tin học","🎨",[["7","Tạo bài trình chiếu"],["8","Định dạng văn bản trên trang chiếu"],["9","Hiệu ứng chuyển trang"],["10","Phần mềm soạn thảo văn bản"],["11","Chỉnh sửa văn bản"],["12A","Thực hành đa phương tiện"],["12B","Phần mềm luyện tập gõ bàn phím"]]],
+["Giải quyết vấn đề với sự trợ giúp của máy tính","🧩",[["13","Chơi với máy tính"],["14","Khám phá môi trường lập trình trực quan"],["15","Tạo chương trình máy tính để diễn tả ý tưởng"],["16","Chương trình của em"]]]
+];
+const lessons4={
+"1":{summary:["Phần cứng là những bộ phận có thể nhận biết qua hình dạng như màn hình, bàn phím, chuột và thân máy.","Phần mềm là các chương trình như trò chơi, ứng dụng trình chiếu và phần mềm học tập.","Phần mềm được lưu trữ trong phần cứng và điều khiển phần cứng hoạt động. Máy tính cần cả hai để làm việc.","Sử dụng máy tính đúng cách: không để đổ nước, không tự ý ngắt điện, không cài phần mềm không được phép."],example:"Ống kính máy ảnh là phần cứng; ứng dụng chụp ảnh là phần mềm. Cả hai phối hợp để chụp được ảnh.",q:[
+["Bàn phím máy tính thuộc nhóm nào?",["Phần cứng","Phần mềm","Trang web"],0,"Bàn phím là thiết bị có thể quan sát và cầm nắm."],
+["Ứng dụng trình chiếu thuộc nhóm nào?",["Phần mềm","Phần cứng","Bàn phím"],0,"Ứng dụng trình chiếu là chương trình máy tính."],
+["Máy tính hoạt động cần gì?",["Cả phần cứng và phần mềm","Chỉ phần cứng","Chỉ phần mềm"],0,"Phần cứng và phần mềm phối hợp với nhau."],
+["Chức năng của phần mềm là gì?",["Điều khiển phần cứng thực hiện công việc","Làm vỏ máy bằng nhựa","Thay thế màn hình thật"],0,"Phần mềm hướng dẫn phần cứng hoạt động."],
+["Việc nào có thể làm hỏng máy tính?",["Để nước đổ lên bàn phím","Gõ phím nhẹ nhàng","Tắt máy đúng cách"],0,"Nước có thể làm hỏng thiết bị."],
+["Khi muốn cài một trò chơi mới vào máy ở trường, em cần làm gì?",["Xin phép giáo viên","Tự cài ngay","Tải từ nguồn không rõ"],0,"Không tự ý cài phần mềm khi chưa được phép."]
+]},
+"2":{summary:["Gõ bàn phím đúng cách giúp nhanh, chính xác và bảo vệ sức khỏe.","Trước khi gõ, đặt các ngón tay vào hàng phím cơ sở theo hướng dẫn.","Khi gõ hàng phím số, đưa đúng ngón tay từ hàng cơ sở lên phím số tương ứng, sau đó trở về vị trí xuất phát.","Luyện gõ thường xuyên bằng đoạn văn ngắn, chú ý tư thế ngồi và nhịp gõ."],example:"Em luyện gõ một đoạn văn ngắn khoảng 50 từ bằng cách đặt tay đúng hàng cơ sở rồi gõ từng phím nhẹ nhàng.",q:[
+["Gõ bàn phím đúng cách giúp điều gì?",["Nhanh, chính xác và đỡ mỏi","Làm hỏng bàn phím","Không cần luyện tập"],0,"Gõ đúng cách tiết kiệm thời gian và công sức."],
+["Trước khi gõ hàng phím số, các ngón tay nên đặt ở đâu?",["Hàng phím cơ sở","Trên màn hình","Trên bàn di chuột"],0,"Bắt đầu từ hàng phím cơ sở."],
+["Sau khi gõ một phím số, ngón tay nên làm gì?",["Trở về vị trí xuất phát","Giữ mãi ở hàng số","Rời khỏi bàn phím"],0,"Trở về hàng cơ sở giúp gõ đúng."],
+["Khi luyện gõ, em nên sử dụng bao nhiêu ngón tay?",["Các ngón theo hướng dẫn","Chỉ một ngón trỏ","Một vật cứng"],0,"Gõ theo phân công các ngón tay."],
+["Điều nào phù hợp khi luyện gõ?",["Gõ nhẹ và đúng tư thế","Cúi sát màn hình","Nhấn phím thật mạnh"],0,"Tư thế và thao tác đúng giúp bảo vệ sức khỏe."],
+["Mục tiêu luyện gõ ở bài này là gì?",["Đoạn văn ngắn khoảng 50 từ","Hàng nghìn dòng mã lệnh","Bản nhạc nhiều giờ"],0,"Sách yêu cầu gõ đúng cách đoạn văn ngắn khoảng 50 từ."]
+]}
+};
+let lesson4=null,round4=[],step4=0,score4=0,locked4=false;
+function shuffle4(items){const a=items.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function renderGrade4(){
+ const root=document.getElementById('grade4-map');if(!root)return;
+ root.innerHTML=worlds4.map((w,i)=>'<article class="g4-world"><h3>'+w[1]+' Chủ đề '+(i+1)+': '+safeHTML16(w[0])+'</h3><div class="g4-steps">'+w[2].map(b=>'<button type="button" class="g4-step" '+(lessons4[b[0]]?'data-grade4="'+b[0]+'"':'disabled')+'><b>'+b[0]+'</b><span>'+safeHTML16(b[1])+'<small>'+(lessons4[b[0]]?'▶ Bắt đầu khám phá':'🔒 Đang biên soạn theo SGK')+'</small></span></button>').join('')+'</div></article>').join('');
+}
+function renderGrade4Question(){
+ const q=round4[step4];locked4=false;
+ document.getElementById('g4-progress').textContent='Câu '+(step4+1)+'/'+round4.length+' • ⭐ '+score4;
+ document.getElementById('g4-question').textContent=q[0];
+ document.getElementById('g4-answers').innerHTML=q[1].map((o,i)=>'<button type="button" class="g4-choice" data-g4-answer="'+i+'">'+safeHTML16(o)+'</button>').join('');
+ document.getElementById('g4-feedback').textContent='';
+ document.getElementById('g4-next').style.display='none';
+ document.getElementById('g4-next').textContent=step4===round4.length-1?'Hoàn thành →':'Câu tiếp theo →';
+}
+function openGrade4(id){
+ lesson4=lessons4[id];if(!lesson4)return;
+ const info=worlds4.flatMap(w=>w[2]).find(b=>b[0]===id);
+ document.getElementById('g4-lesson-title').textContent='Bài '+id+'. '+info[1];
+ document.getElementById('g4-summary').innerHTML='<ul>'+lesson4.summary.map(x=>'<li>'+safeHTML16(x)+'</li>').join('')+'</ul>';
+ document.getElementById('g4-example').textContent=lesson4.example;
+ round4=shuffle4(lesson4.q).map(q=>{const options=shuffle4(q[1].map((text,i)=>({text,i})));return [q[0],options.map(o=>o.text),options.findIndex(o=>o.i===q[2]),q[3]]});
+ step4=0;score4=0;navigate('grade4-lesson');renderGrade4Question();
+}
+document.addEventListener('click',e=>{
+ const b=e.target.closest('[data-grade4],[data-g4-answer]');if(!b)return;
+ if(b.dataset.grade4){openGrade4(b.dataset.grade4);return}
+ if(locked4||!lesson4)return;locked4=true;
+ const idx=Number(b.dataset.g4Answer),q=round4[step4],correct=idx===q[2];if(correct)score4++;
+ document.querySelectorAll('.g4-choice').forEach((c,i)=>{c.disabled=true;if(i===q[2])c.classList.add('correct');else if(i===idx)c.classList.add('wrong')});
+ document.getElementById('g4-feedback').textContent=(correct?'🌟 Chính xác! ':'💡 Ghi nhớ: ')+q[3];
+ document.getElementById('g4-next').style.display='inline-block';
+});
+document.getElementById('g4-next').addEventListener('click',()=>{
+ if(step4<round4.length-1){step4++;renderGrade4Question();return}
+ document.getElementById('g4-question').textContent='🏆 Em đã hoàn thành thử thách!';
+ document.getElementById('g4-progress').textContent='⭐ '+score4+'/'+round4.length;
+ document.getElementById('g4-answers').innerHTML='';
+ document.getElementById('g4-feedback').textContent='Em có thể làm lại để luyện tập tốt hơn.';
+ document.getElementById('g4-next').textContent='Luyện tập lượt mới ↻';document.getElementById('g4-next').style.display='inline-block';
+ document.getElementById('g4-next').onclick=()=>{document.getElementById('g4-next').onclick=null;openGrade4(Object.keys(lessons4).find(k=>lessons4[k]===lesson4))};
+});
+document.getElementById('g4-ai').addEventListener('click',()=>{
+ if(!lesson4)return;
+ const title=document.getElementById('g4-lesson-title').textContent;
+ const msg='Em đang học Tin học lớp 4, bộ Kết nối tri thức, '+title+'. Hãy giải thích ngắn gọn dễ hiểu, hỏi gợi mở và không làm bài thay em.';
+ navigate('assistant');const inp=document.querySelector('#ai-input, #chat-input, #user-input');if(inp){inp.value=msg;inp.focus()}else{try{ask(msg)}catch{}}
+});
+renderGrade4();
 </script></body></html>
