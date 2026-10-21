@@ -456,7 +456,7 @@ function openGrade4(id){
  const chosen=shuffle4(pool.filter(x=>!previous.includes(x.i))).concat(shuffle4(pool.filter(x=>previous.includes(x.i)))).slice(0,Math.min(6,pool.length));
  try{localStorage.setItem(key,JSON.stringify(chosen.map(x=>x.i)))}catch{}
  round4=shuffle4(chosen).map(item=>{const q=item.q,options=shuffle4(q[1].map((text,i)=>({text,i})));return [q[0],options.map(o=>o.text),options.findIndex(o=>o.i===q[2]),q[3]]});
- step4=0;score4=0;navigate('grade4-lesson');renderGrade4Question();
+ step4=0;score4=0;document.getElementById('g4-next').dataset.restart='0';navigate('grade4-lesson');renderGrade4Question();
 }
 document.addEventListener('click',e=>{
  const b=e.target.closest('[data-grade4],[data-g4-answer]');if(!b)return;
@@ -468,13 +468,13 @@ document.addEventListener('click',e=>{
  document.getElementById('g4-next').style.display='inline-block';
 });
 document.getElementById('g4-next').addEventListener('click',()=>{
+ if(document.getElementById('g4-next').dataset.restart==='1'){document.getElementById('g4-next').dataset.restart='0';openGrade4(Object.keys(lessons4).find(k=>lessons4[k]===lesson4));return}
  if(step4<round4.length-1){step4++;renderGrade4Question();return}
  document.getElementById('g4-question').textContent='🏆 Em đã hoàn thành thử thách!';
  document.getElementById('g4-progress').textContent='⭐ '+score4+'/'+round4.length;
  document.getElementById('g4-answers').innerHTML='';
  document.getElementById('g4-feedback').textContent='Em có thể làm lại để luyện tập tốt hơn.';
- document.getElementById('g4-next').textContent='Luyện tập lượt mới ↻';document.getElementById('g4-next').style.display='inline-block';
- document.getElementById('g4-next').onclick=()=>{document.getElementById('g4-next').onclick=null;openGrade4(Object.keys(lessons4).find(k=>lessons4[k]===lesson4))};
+ document.getElementById('g4-next').textContent='Luyện tập lượt mới ↻';document.getElementById('g4-next').dataset.restart='1';document.getElementById('g4-next').style.display='inline-block';
 });
 document.getElementById('g4-ai').addEventListener('click',()=>{
  if(!lesson4)return;
