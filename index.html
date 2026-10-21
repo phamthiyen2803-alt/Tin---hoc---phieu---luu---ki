@@ -95,13 +95,42 @@ body{background:radial-gradient(circle at 15% 4%,#bceaff 0,transparent 34%),radi
 .quest-badges{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.quest-badge{display:flex;align-items:center;gap:10px;background:white;border:1px solid #e4e7f7;padding:13px;border-radius:14px}.quest-badge>span{font-size:26px;filter:grayscale(1);opacity:.5}.quest-badge.unlocked>span{filter:none;opacity:1}.quest-badge strong{font-size:12px}.quest-badge small{display:block;color:#8b96b1;font-size:10px;margin-top:3px}
 .quest-more{margin-top:20px;background:#fff2c9;border-radius:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:18px}.quest-more strong{font-size:13px}.quest-more small{display:block;color:#a0814d;margin-top:4px}.quest-shortcuts{display:flex;flex-wrap:wrap;gap:9px;margin:16px 0 25px}.quest-shortcuts button{border:1px solid #e3e8f5;background:white;color:#55639b;border-radius:13px;padding:11px;font-weight:750}
 @media(max-width:700px){.quest-hero{grid-template-columns:1fr}.quest-hero-copy{padding:24px}.quest-hero-art{display:none}.quest-metrics{grid-template-columns:repeat(2,1fr)}.quest-map{padding:13px}.quest-path{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:18px}.quest-stop:not(:nth-child(4n)):after,.quest-stop:nth-child(4n):before{display:none}.quest-stop{min-height:125px}.quest-badges{grid-template-columns:repeat(2,1fr)}}
+
+/* Tuy chinh ban do mem mai theo anh tham khao */
+.quest-route-wrap{position:relative;isolation:isolate}
+.quest-route-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:visible}
+.quest-route-lines path{fill:none;stroke:#909ce8;stroke-width:10;stroke-linecap:round;stroke-dasharray:1 22;opacity:.92}
+.quest-path{position:relative;z-index:1;column-gap:14px;row-gap:40px}
+.quest-stop{min-height:174px;gap:10px;z-index:1}
+.quest-stop:before,.quest-stop:after{display:none!important}
+.quest-stop:nth-child(8n+5){grid-column:4}
+.quest-stop:nth-child(8n+6){grid-column:3}
+.quest-stop:nth-child(8n+7){grid-column:2}
+.quest-stop:nth-child(8n+8){grid-column:1}
+.quest-node{height:94px;width:94px;border:6px solid #fff;border-radius:30px;font-size:40px;box-shadow:0 9px 0 #bed1ee,0 13px 23px #758bc345;transform:translateY(0);z-index:2}
+.quest-node:hover,.quest-node:focus-visible{transform:translateY(-5px) scale(1.03);box-shadow:0 12px 0 #bed1ee,0 16px 24px #758bc355}
+.quest-node small{top:-16px;right:-13px;min-width:37px;height:37px;border-radius:99px;background:linear-gradient(135deg,#397bec,#7664e9);display:grid;place-items:center;border:3px solid white;font-size:15px;box-shadow:0 4px 10px #4f61c544}
+.quest-stop strong{font-size:14px;max-width:180px;color:#1e3971;line-height:1.35;min-height:36px}
+.quest-stop .quest-tag{border-radius:99px;border:1px solid #d9e2ff;box-shadow:0 4px 0 #dce3ff;font-size:11px;padding:7px 13px;color:#5565b2;font-weight:800}
+.quest-map{background:linear-gradient(135deg,#d9f8f2,#e8f0ff 48%,#fff1e9);border:2px solid white}
+@media(max-width:700px){
+ .quest-path{grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 8px}
+ .quest-stop:nth-child(n){grid-column:auto}
+ .quest-stop:nth-child(4n+3){grid-column:2}
+ .quest-stop:nth-child(4n+4){grid-column:1}
+ .quest-node{width:77px;height:77px;border-radius:24px;font-size:31px;border-width:5px}
+ .quest-node small{min-width:31px;height:31px;font-size:12px}
+ .quest-stop{min-height:170px}
+ .quest-stop strong{font-size:12px;max-width:155px}
+ .quest-route-lines path{stroke-width:8;stroke-dasharray:1 17}
+}
 </style></head><body><div class="app"><header class="top"><div class="brand"><div class="brand-icon"><img src="co-yen-tin-hoc.jpg" alt="Huy hiệu Cô Yến Tin học" width="60" height="60" loading="eager"></div><div>TIN HỌC <span style="color:#6e5de2">PHIÊU LƯU KÝ</span><div class="muted" style="font-size:11px;font-weight:600">AI dẫn lối • Em tự khám phá</div></div></div><nav class="nav" aria-label="Điều hướng"><button class="active" data-page="home">🏠 Trang chủ</button><button data-page="map">🗺️ Bản đồ đảo</button><button data-page="learn">📚 Khám phá</button><button data-page="quiz">🎮 Thử thách</button><button data-page="sort">🧩 Phân loại</button><button data-page="assistant">🤖 AI Mây</button><button data-page="teacher">📊 Giáo viên</button></nav><button class="pill" id="stars">⭐ 0 sao</button></header>
 <main><section class="section shown" id="home">
 <div class="quest-hero"><div class="quest-hero-copy"><div class="quest-eyebrow">✨ PHIÊU LƯU HỌC TẬP CÙNG AI MÂY</div><h1>16 trạm phiêu lưu<br>Chinh phục thế giới số!</h1><p>Cùng AI Mây khám phá 6 vùng đất tri thức, vượt qua thử thách, nhận sao vàng và trở thành nhà thám hiểm Tin học!</p><div class="hero-actions"><button class="btn" type="button" id="journey-start" data-goto="course16">🚀 Bắt đầu phiêu lưu</button><button class="btn secondary" data-goto="assistant">🤖 Gặp AI Mây</button></div></div><div class="quest-hero-art" aria-hidden="true"><div class="quest-orbit">✦　✧</div><div class="quest-mascot">🤖</div><span class="quest-bubble">Chào bạn! ✨</span></div></div>
 <div class="quest-metrics"><div>📘 <b>16</b><small>Trạm khám phá</small></div><div>✅ <b id="journey-done">0/16</b><small>Bài hoàn thành</small></div><div>⭐ <b id="stat-stars">0</b><small>Sao đạt được</small></div><div>🏅 <b id="journey-badges-count">0/6</b><small>Huy hiệu thế giới</small></div></div>
 <div class="quest-heading"><div><h2>🗺️ Bản đồ 16 trạm phiêu lưu</h2><p>Đi theo đường chấm kỳ diệu • Chọn trạm để khám phá kiến thức mới!</p></div><strong id="journey-percent">0%</strong></div><div class="quest-progress"><span id="journey-progress-bar"></span></div>
 <div class="quest-tabs" id="journey-filter"></div>
-<div class="quest-map"><div class="quest-map-sky">☁️　⭐　☁️　🌈</div><div id="journey-home-worlds" class="quest-path"></div><div class="quest-treasure">🎁 <strong>Kho báu Tin học</strong><small>Hoàn thành 16 trạm để chinh phục kho báu!</small></div></div>
+<div class="quest-map"><div class="quest-map-sky">☁️　⭐　☁️　🌈</div><div class="quest-route-wrap"><svg id="quest-route-lines" class="quest-route-lines" aria-hidden="true" preserveAspectRatio="none"></svg><div id="journey-home-worlds" class="quest-path"></div></div><div class="quest-treasure">🎁 <strong>Kho báu Tin học</strong><small>Hoàn thành 16 trạm để chinh phục kho báu!</small></div></div>
 <div class="quest-heading"><div><h2>🏆 Bộ sưu tập huy hiệu</h2><p>Chinh phục đủ các bài trong mỗi thế giới để mở huy hiệu!</p></div></div><div class="quest-badges" id="journey-badges"></div>
 <div class="quest-more"><div>✨ <strong>Hành trình của em bắt đầu từ hôm nay!</strong><small>AI Mây luôn đồng hành, nhưng em sẽ tự khám phá và chinh phục thử thách.</small></div><button class="btn" data-goto="course16">📚 Danh sách 16 bài</button></div>
 <div class="quest-shortcuts"><button data-goto="map">🏝️ Bản đồ 5 đảo</button><button data-goto="learn">💻 Khám phá máy tính</button><button data-goto="quiz">⭐ Thử thách sao vàng</button><button data-goto="sort">🧩 Kho báu thiết bị</button><button data-goto="teacher">📊 Góc giáo viên</button></div>
@@ -115,7 +144,7 @@ body{background:radial-gradient(circle at 15% 4%,#bceaff 0,transparent 34%),radi
 <script>
 'use strict';const qs=[{q:'Bộ phận nào hiển thị chữ và hình ảnh từ máy tính?',o:['🖱️ Chuột','🖥️ Màn hình','⌨️ Bàn phím','🔊 Loa'],a:1,skill:'Chức năng màn hình',ex:'Màn hình hiển thị thông tin để em quan sát.'},{q:'Em sử dụng bộ phận nào để gõ tên của mình?',o:['⌨️ Bàn phím','🖥️ Màn hình','🔊 Loa','🖱️ Chuột'],a:0,skill:'Chức năng bàn phím',ex:'Bàn phím giúp nhập chữ, số và kí hiệu.'},{q:'Muốn điều khiển con trỏ trên màn hình, em dùng gì?',o:['📦 Thân máy','🔊 Loa','🖱️ Chuột','⌨️ Bàn phím'],a:2,skill:'Chức năng chuột',ex:'Chuột giúp em điều khiển con trỏ và chọn đối tượng.'},{q:'Khi tay đang ướt, em nên làm gì?',o:['Chạm vào ổ cắm','Tự rút dây điện','Bật máy thật nhanh','Lau khô tay và nhờ người lớn khi cần'],a:3,skill:'An toàn điện',ex:'Tay ướt làm tăng nguy cơ điện giật. Em cần giữ tay khô và nhờ người lớn hỗ trợ.'},{q:'Bộ phận nào chứa các thiết bị xử lí chính của máy tính để bàn?',o:['Thân máy','Chuột','Loa','Màn hình'],a:0,skill:'Nhận biết thân máy',ex:'Thân máy chứa nhiều bộ phận quan trọng giúp máy tính xử lí thông tin.'},{q:'Loa máy tính giúp em nhận thông tin dưới dạng nào?',o:['Mùi hương','Âm thanh','Chữ viết bằng bút','Chạm tay'],a:1,skill:'Chức năng loa',ex:'Loa phát âm thanh từ máy tính.'},{q:'Thiết bị nào dưới đây thường có màn hình cảm ứng?',o:['Chuột máy tính','Bàn phím cơ','Máy tính bảng','Loa'],a:2,skill:'Các loại máy tính',ex:'Máy tính bảng thường có màn hình cảm ứng, giúp thao tác trực tiếp bằng ngón tay.'},{q:'Nếu thấy dây điện máy tính bị hở, em sẽ làm gì?',o:['Tiếp tục dùng','Tự sửa bằng tay','Đổ nước vào','Tránh xa và báo người lớn'],a:3,skill:'An toàn điện',ex:'Không chạm vào dây điện bị hở. Em phải báo ngay người lớn hoặc thầy cô.'}];
 const $=id=>document.getElementById(id);let round=0,score=0,selected=false,mistakes=[];let history=[];try{history=JSON.parse(localStorage.getItem('tinHocHistory')||'[]');if(!Array.isArray(history))history=[]}catch{history=[]}const save=()=>{try{localStorage.setItem('tinHocHistory',JSON.stringify(history.slice(-100)))}catch{}};
-function navigate(page){document.querySelectorAll('.section').forEach(x=>x.classList.toggle('shown',x.id===page));document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===page));window.scrollTo({top:0,behavior:'smooth'});if(page==='teacher'&&!$('teacher-content').classList.contains('hidden'))drawTeacher()};document.addEventListener('click',e=>{let b=e.target.closest('[data-goto],[data-page]');if(b)navigate(b.dataset.goto||b.dataset.page)});
+function navigate(page){if(page==='home')scheduleJourneyRoute16();document.querySelectorAll('.section').forEach(x=>x.classList.toggle('shown',x.id===page));document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===page));window.scrollTo({top:0,behavior:'smooth'});if(page==='teacher'&&!$('teacher-content').classList.contains('hidden'))drawTeacher()};document.addEventListener('click',e=>{let b=e.target.closest('[data-goto],[data-page]');if(b)navigate(b.dataset.goto||b.dataset.page)});
 function stats(){const best=history.length?Math.max(...history.map(h=>h.score)):0,stars=history.reduce((a,h)=>a+h.score,0);$('stat-rounds').textContent=history.length;$('stat-stars').textContent=stars;$('stat-best').textContent=best+'/8';$('stars').textContent='⭐ '+stars+' sao'}
 function displayQuestion(){selected=false;const x=qs[round];$('quiz-game').classList.remove('hidden');$('quiz-done').classList.add('hidden');$('quiz-counter').textContent=`Câu ${round+1} / ${qs.length}`;$('quiz-score').textContent='⭐ '+score+' điểm';$('quiz-bar').style.width=(round/qs.length*100)+'%';$('question').textContent=x.q;$('feedback').innerHTML='';$('next').classList.add('hidden');$('options').innerHTML='';x.o.forEach((o,i)=>{const b=document.createElement('button');b.className='option';b.textContent=o;b.addEventListener('click',()=>choose(i));$('options').append(b)})}function choose(i){if(selected)return;selected=true;const x=qs[round],ok=i===x.a;if(ok)score++;else mistakes.push(x.skill);document.querySelectorAll('.option').forEach((b,j)=>{b.disabled=true;if(j===i)b.classList.add('selected');if(j===x.a)b.style.borderColor='#28b68d'});let box=document.createElement('div');box.className='feedback '+(ok?'':'bad');box.textContent=(ok?'🌟 Chính xác! ':'💡 Chưa đúng rồi! ')+x.ex;$('feedback').append(box);$('quiz-score').textContent='⭐ '+score+' điểm';$('next').textContent=round===qs.length-1?'Xem kết quả 🏆':'Câu tiếp theo →';$('next').classList.remove('hidden')}
 function finish(){history.push({date:new Date().toLocaleString('vi-VN'),score,mistakes});save();stats();$('quiz-game').classList.add('hidden');$('quiz-done').classList.remove('hidden');$('final-score').textContent=`Em đạt ${score}/${qs.length} ngôi sao!`;$('final-message').textContent=score>=7?'Xuất sắc! Em là nhà thám hiểm tài ba! 🌟':score>=5?'Rất tốt! Hãy luyện thêm để chinh phục tất cả ngôi sao!':'Em đã cố gắng! Hãy khám phá lại kiến thức và thử tiếp nhé!';$('final-suggestion').textContent=mistakes.length?'Gợi ý luyện tập: '+[...new Set(mistakes)].join(', ')+'.':'Em đã nắm vững các kiến thức trong thử thách này!'}$('next').onclick=()=>{if(round===qs.length-1)finish();else{round++;displayQuestion()}};$('replay').onclick=()=>{round=0;score=0;mistakes=[];displayQuestion()};function drawTeacher(){const total=history.length,avg=total?(history.reduce((v,h)=>v+h.score,0)/total).toFixed(1):'0';$('t-rounds').textContent=total;$('t-avg').textContent=avg+'/8';const counts={};history.forEach(h=>(h.mistakes||[]).forEach(x=>counts[x]=(counts[x]||0)+1));$('t-gap').textContent=Object.keys(counts).sort((a,b)=>counts[b]-counts[a])[0]||'Chưa có';$('teacher-history').textContent='';history.slice(-20).reverse().forEach(h=>{let d=document.createElement('p');d.textContent=`${h.date} — ${h.score}/8 sao — Cần củng cố: ${(h.mistakes||[]).join(', ')||'Không có'}`;$('teacher-history').append(d)});if(!history.length)$('teacher-history').textContent='Chưa có lượt làm bài.'}$('teacher-unlock').onclick=()=>{if($('teacher-pin').value!=='1234'){$('teacher-error').textContent='Mã demo không đúng.';return}$('teacher-error').textContent='';$('teacher-content').classList.remove('hidden');drawTeacher()};$('export').onclick=()=>{const lines=[['Thoi gian','Diem','Noi dung can cung co'],...history.map(h=>[h.date,h.score,(h.mistakes||[]).join('; ')])];const csv='\ufeff'+lines.map(row=>row.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(',')).join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ket-qua-tin-hoc.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
@@ -162,6 +191,24 @@ const lessonData16=[{"n":1,"summary":"Thông tin giúp em hiểu sự việc và
 let lessonCurrent16=null,lessonStep16=0,lessonScore16=0,lessonMistakes16=[];
 const safeHTML16=s=>String(s).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 let journeyFilter16=-1;
+function drawJourneyRoute16(){
+ const wrap=document.querySelector('.quest-route-wrap'),svg=$('quest-route-lines');
+ if(!wrap||!svg)return;
+ const buttons=Array.from(wrap.querySelectorAll('.quest-node'));
+ if(buttons.length!==16)return;
+ const base=wrap.getBoundingClientRect();
+ const points=buttons.map(b=>{const r=b.getBoundingClientRect();return {x:r.left+r.width/2-base.left,y:r.top+r.height/2-base.top}});
+ svg.setAttribute('viewBox','0 0 '+Math.max(1,base.width)+' '+Math.max(1,base.height));
+ svg.innerHTML=points.slice(1).map((p,i)=>{
+  const a=points[i],dx=p.x-a.x,dy=p.y-a.y;
+  let path;
+  if(Math.abs(dy)<20){path='M '+a.x+' '+a.y+' L '+p.x+' '+p.y}
+  else {const bend=Math.min(90,Math.max(50,Math.abs(dy)*.4));path='M '+a.x+' '+a.y+' C '+(a.x+Math.sign(dx||1)*bend)+' '+(a.y+dy*.25)+', '+(p.x+Math.sign(dx||1)*bend)+' '+(p.y-dy*.25)+', '+p.x+' '+p.y}
+  return '<path d="'+path+'" />';
+ }).join('');
+}
+function scheduleJourneyRoute16(){requestAnimationFrame(()=>requestAnimationFrame(drawJourneyRoute16))}
+window.addEventListener('resize',scheduleJourneyRoute16);
 function renderJourneyHome16(){
  const root=$('journey-home-worlds');if(!root)return;
  let records=[];try{records=JSON.parse(localStorage.getItem('tinHoc16')||'[]');if(!Array.isArray(records))records=[]}catch{}
@@ -175,6 +222,7 @@ function renderJourneyHome16(){
  const badges=worlds16.map((w,i)=>({name:w[0],icon:w[1],ok:w[2].every(b=>finished.has(b[0]))}));
  $('journey-badges-count').textContent=badges.filter(b=>b.ok).length+'/6';
  $('journey-badges').innerHTML=badges.map((b,i)=>'<div class="quest-badge'+(b.ok?' unlocked':'')+'"><span>'+b.icon+'</span><div><strong>Huy hiệu '+(i+1)+'</strong><small>'+safeHTML16(b.name)+' · '+(b.ok?'Đã mở':'Chưa mở')+'</small></div></div>').join('');
+ scheduleJourneyRoute16();
  $('journey-filter').innerHTML='<button type="button" class="quest-tab'+(journeyFilter16===-1?' active':'')+'" data-journey-filter="-1">🌈 Tất cả 16 trạm</button>'+worlds16.map((w,i)=>'<button type="button" class="quest-tab'+(journeyFilter16===i?' active':'')+'" data-journey-filter="'+i+'">'+w[1]+' '+safeHTML16(w[0])+'</button>').join('');
 }
 document.addEventListener('click',function(e){const b=e.target.closest('[data-journey-filter]');if(!b)return;journeyFilter16=Number(b.dataset.journeyFilter);renderJourneyHome16()});
