@@ -1,0 +1,151 @@
+{
+  "version": "4.0-planning",
+  "textbook": "Tin học 3 – Kết nối tri thức với cuộc sống",
+  "notes": "Các tên thế giới và trò chơi là sáng tạo của dự án, không phải tiêu đề SGK. Giai đoạn 1 mới là khung nội dung.",
+  "themes": [
+    {
+      "id": 1,
+      "title": "Máy tính và em",
+      "icon": "🌟",
+      "world": "Những người bạn công nghệ",
+      "lessons": [
+        {
+          "number": 1,
+          "title": "Thông tin và quyết định",
+          "gameIdea": "Chọn quyết định theo tình huống",
+          "status": "du_kien"
+        },
+        {
+          "number": 2,
+          "title": "Xử lí thông tin",
+          "gameIdea": "Ghép thông tin – xử lí – kết quả",
+          "status": "du_kien"
+        },
+        {
+          "number": 3,
+          "title": "Máy tính và em",
+          "gameIdea": "Nhận diện bộ phận máy tính",
+          "status": "da_co_phien_ban_cu"
+        },
+        {
+          "number": 4,
+          "title": "Làm việc với máy tính",
+          "gameIdea": "Quy tắc sử dụng máy tính",
+          "status": "du_kien"
+        },
+        {
+          "number": 5,
+          "title": "Sử dụng bàn phím",
+          "gameIdea": "Tìm phím đúng",
+          "status": "du_kien"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Mạng máy tính và Internet",
+      "icon": "🌐",
+      "world": "Đại dương Internet",
+      "lessons": [
+        {
+          "number": 6,
+          "title": "Khám phá thông tin trên Internet",
+          "gameIdea": "Tìm thông tin phù hợp",
+          "status": "du_kien"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Tổ chức lưu trữ, tìm kiếm và trao đổi thông tin",
+      "icon": "🗂️",
+      "world": "Kho báu thông tin",
+      "lessons": [
+        {
+          "number": 7,
+          "title": "Sắp xếp để dễ tìm",
+          "gameIdea": "Sắp xếp đồ vật theo nhóm",
+          "status": "du_kien"
+        },
+        {
+          "number": 8,
+          "title": "Sơ đồ hình cây. Tổ chức thông tin trong máy tính",
+          "gameIdea": "Đọc sơ đồ hình cây",
+          "status": "du_kien"
+        },
+        {
+          "number": 9,
+          "title": "Thực hành với tệp và thư mục trong máy tính",
+          "gameIdea": "Tìm và nhận biết tệp, thư mục",
+          "status": "du_kien"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Đạo đức, pháp luật và văn hóa trong môi trường số",
+      "icon": "🛡️",
+      "world": "Pháo đài an toàn số",
+      "lessons": [
+        {
+          "number": 10,
+          "title": "Bảo vệ thông tin khi dùng máy tính",
+          "gameIdea": "Chọn cách bảo vệ thông tin",
+          "status": "du_kien"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Ứng dụng tin học",
+      "icon": "🎨",
+      "world": "Xưởng sáng tạo số",
+      "lessons": [
+        {
+          "number": 11,
+          "title": "Bài trình chiếu của em",
+          "gameIdea": "Ghép các thành phần trang chiếu",
+          "status": "du_kien"
+        },
+        {
+          "number": 12,
+          "title": "Tìm hiểu về thế giới tự nhiên",
+          "gameIdea": "Tạo nội dung giới thiệu ngắn",
+          "status": "du_kien"
+        },
+        {
+          "number": 13,
+          "title": "Luyện tập sử dụng chuột",
+          "gameIdea": "Thử thách thao tác chuột",
+          "status": "du_kien"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Giải quyết vấn đề với sự trợ giúp của máy tính",
+      "icon": "🧠",
+      "world": "Thành phố tư duy",
+      "lessons": [
+        {
+          "number": 14,
+          "title": "Em thực hiện công việc như thế nào?",
+          "gameIdea": "Sắp xếp các bước công việc",
+          "status": "du_kien"
+        },
+        {
+          "number": 15,
+          "title": "Công việc được thực hiện theo điều kiện",
+          "gameIdea": "Trò chơi nếu – thì",
+          "status": "du_kien"
+        },
+        {
+          "number": 16,
+          "title": "Công việc của em và sự trợ giúp của máy tính",
+          "gameIdea": "Chia nhiệm vụ thành việc nhỏ",
+          "status": "du_kien"
+        }
+      ]
+    }
+  ]
+}
