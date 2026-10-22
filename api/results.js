@@ -18,7 +18,7 @@ module.exports=async function handler(req,res){
   if(!auth(b.password))return json(res,403,{error:'Mật khẩu giáo viên không đúng hoặc chưa cấu hình.'});
   const grade=['3','4','5'].includes(String(b.grade))?String(b.grade):'';
   const query='/rest/v1/learning_results?select=created_at,student_name,class_name,grade,lesson,score,total&order=created_at.desc&limit=1000'+(grade?'&grade=eq.'+grade:'');
-  try{const r=await fetch(url()+query,{headers:{apikey:key(),...(key().startsWith('sb_secret_')?{}:{Authorization:'Bearer '+key()})}});if(!r.ok)return json(res,503,{error:'Supabase từ chối đọc báo cáo (HTTP '+r.status+').',sourceStatus:r.status});return json(res,200,{rows:await r.json(),limit:1000})}catch{return json(res,503,{error:'Không tải được báo cáo.'})}
+  try{const r=await fetch(url()+query,{headers:{apikey:key(),...(key().startsWith('sb_secret_')?{}:{Authorization:'Bearer '+key()})}});if(!r.ok)return json(res,503,{error:'Supabase từ chối đọc báo cáo (HTTP '+r.status+').',sourceStatus:r.status});return json(res,200,{rows:await r.json(),limit:1000})}catch(e){const code=e?.cause?.code||e?.code||'FETCH_FAILED';const known=['ENOTFOUND','EAI_AGAIN','ECONNREFUSED','ETIMEDOUT','UND_ERR_CONNECT_TIMEOUT','CERT_HAS_EXPIRED','SELF_SIGNED_CERT_IN_CHAIN'];const safe=known.includes(code)?code:'FETCH_FAILED';console.error('Supabase report request failed:',safe);return json(res,503,{error:'Không kết nối được Supabase ('+safe+'). Vui lòng kiểm tra địa chỉ SUPABASE_URL và kết nối máy chủ.',diagnostic:safe})}
  }
  return json(res,400,{error:'Yêu cầu không hợp lệ.'});
 };
