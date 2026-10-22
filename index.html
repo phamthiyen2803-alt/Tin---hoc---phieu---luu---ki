@@ -552,7 +552,7 @@ document.getElementById("g4-lab-check").addEventListener("click",()=>{
 document.addEventListener("dragstart",e=>{const b=e.target.closest("[data-lab-step]");if(b)e.dataTransfer.setData("text/plain",b.dataset.labStep)});
 const labDrop=document.getElementById("g4-lab-ordered");
 labDrop.addEventListener("dragover",e=>e.preventDefault());
-labDrop.addEventListener("drop",e=>{e.preventDefault();const raw=e.dataTransfer.getData("text/plain");if(/^\\d+$/.test(raw))chooseGrade4LabStep(Number(raw))});
+labDrop.addEventListener("drop",e=>{e.preventDefault();const raw=e.dataTransfer.getData("text/plain");if(/^[0-9]+$/.test(raw))chooseGrade4LabStep(Number(raw))});
 let grade4RecentRounds={};
 let lesson4=null,round4=[],step4=0,score4=0,locked4=false;
 function shuffle4(items){const a=items.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
