@@ -1,26 +1,36 @@
 (()=>{'use strict';
 const key='thdk_teacher_drafts_v1',get=id=>document.getElementById(id);
 function lessonId(raw){const m=String(raw||'').trim().match(/^(?:bài\s*)?(\d{1,2}[a-b]?)\b/i);return m?m[1].toUpperCase():null}
-window.thdkExtraQuestions=function(grade,lesson){
- try{const a=JSON.parse(localStorage.getItem(key)||'[]');if(!Array.isArray(a))return [];
- return a.filter(q=>Array.isArray(q)&&String(q[0])===String(grade)&&lessonId(q[1])===String(lesson).toUpperCase()&&q[8]!==false&&q.slice(2,7).every(x=>typeof x==='string'&&x.trim())&&/^[0-3]$/.test(String(q[7])))
- .map(q=>[q[2],q.slice(3,7),Number(q[7]),'Đáp án đúng: '+q[Number(q[7])+3]]);
- }catch{return []}
-};
+function lessons(grade){const a=Array.from({length:16},(_,i)=>String(i+1));if(grade==='4')a.splice(12,0,'12A','12B');if(grade==='5'){a.splice(9,0,'9A','9B');a.splice(8,0,'8A','8B')}return a}
+function load(){try{const a=JSON.parse(localStorage.getItem(key)||'[]');return Array.isArray(a)?a.filter(q=>Array.isArray(q)&&q.length>=8):[]}catch{return []}}
+window.thdkExtraQuestions=function(grade,lesson){try{return load().filter(q=>String(q[0])===String(grade)&&lessonId(q[1])===String(lesson).toUpperCase()&&q[8]!==false&&q.slice(2,7).every(x=>typeof x==='string'&&x.trim())&&/^[0-3]$/.test(String(q[7]))).map(q=>[q[2],q.slice(3,7),Number(q[7]),'Đáp án đúng: '+q[Number(q[7])+3]])}catch{return []}};
 const box=get('creative-question-content');if(!box)return;
-const actions=box.querySelector('.creative-actions');
+const grade=get('creative-grade'),lesson=get('creative-lesson'),preview=get('creative-preview-output'),actions=box.querySelector('.creative-actions');
+const hint=document.createElement('p');hint.className='creative-note';hint.textContent='Bước 1: Chọn khối và bài học → Bước 2: Nhập câu hỏi → Bước 3: Xem trước và lưu. Chọn Bật để câu hỏi xuất hiện trong lượt luyện tập trên thiết bị này.';
+box.insertBefore(hint,box.querySelector('.creative-fields'));
+const list=document.createElement('datalist');list.id='creative-lesson-options';lesson.setAttribute('list',list.id);lesson.setAttribute('placeholder','Chọn hoặc nhập: Bài 1');lesson.after(list);
+const tip=document.createElement('small');tip.style.color='#536ca3';lesson.after(tip);
+function refreshLessons(){list.replaceChildren();const valid=lessons(grade.value);valid.forEach(n=>{const o=document.createElement('option');o.value='Bài '+n;list.append(o)});tip.textContent='Các bài gợi ý: '+valid.map(x=>'Bài '+x).join(', ')}
+grade.addEventListener('change',()=>{lesson.value='';refreshLessons();preview.hidden=true});refreshLessons();
 const save=document.createElement('button');save.type='button';save.textContent='💾 Lưu câu hỏi';
-actions.appendChild(save);
-const reset=document.createElement('button');reset.type='button';reset.textContent='➕ Câu hỏi mới';actions.appendChild(reset);
-const section=document.createElement('div');section.className='creative-bank';section.innerHTML='<h3>📚 Câu hỏi đã lưu trên thiết bị này</h3><p class="creative-note">Câu hỏi bật sẽ được thêm vào lượt luyện tập của đúng khối và bài trên trình duyệt này; chưa đồng bộ sang thiết bị khác.</p><div id="creative-bank-items"></div>';
-box.appendChild(section);
-const status=document.createElement('p');status.setAttribute('role','status');status.setAttribute('aria-live','polite');status.style.cssText='color:#145b44;font-weight:800;margin:10px 0';actions.after(status);
-let edit=-1;
-const ids=['creative-grade','creative-lesson','creative-question','creative-a','creative-b','creative-c','creative-d','creative-correct'];
-function load(){try{let v=JSON.parse(localStorage.getItem(key)||'[]');return Array.isArray(v)?v:[]}catch{return []}}
-function store(v){try{localStorage.setItem(key,JSON.stringify(v));return true}catch{alert('Không thể lưu trên trình duyệt này.');return false}}
-function clean(){edit=-1;status.textContent='';ids.slice(1).forEach(id=>get(id).value='');get('creative-correct').value='0';get('creative-preview-output').hidden=true}
-function render(){const items=get('creative-bank-items');items.replaceChildren();load().forEach((q,i)=>{const el=document.createElement('div');el.className='creative-saved-item';const text=document.createElement('p');text.textContent='Tin học '+q[0]+' • '+q[1]+' — '+q[2];const e=document.createElement('button');e.type='button';e.textContent='✏️ Sửa';e.onclick=()=>{edit=i;ids.forEach((id,j)=>get(id).value=q[j]);get('creative-question').focus()};const toggle=document.createElement('button');toggle.type='button';toggle.textContent=q[8]===false?'🔘 Đang tắt – Bật':'✅ Đang bật – Tắt';toggle.onclick=()=>{const a=load();if(!a[i])return;a[i][8]=a[i][8]===false?true:false;if(store(a))render()};const d=document.createElement('button');d.type='button';d.textContent='🗑 Xóa';d.onclick=()=>{if(confirm('Xóa câu hỏi này khỏi kho trên thiết bị?')){const a=load();a.splice(i,1);if(store(a)){clean();render()}}};el.append(text,e,toggle,d);items.appendChild(el)});if(!items.children.length)items.textContent='Chưa lưu câu hỏi nào.'}
-save.onclick=()=>{const q=ids.map(id=>get(id).value.trim());if(q.slice(1,7).some(v=>!v)){alert('Hãy nhập bài học, nội dung và đủ 4 đáp án.');return}const a=load();const id=lessonId(q[1]);if(!id){alert('Vui lòng nhập đúng mã bài học, ví dụ: Bài 3 hoặc 12A.');return}q[1]='Bài '+id;if(edit>=0&&edit<a.length){q[8]=a[edit][8]!==false;a[edit]=q}else{q[8]=true;a.unshift(q)}if(store(a)){clean();render();status.textContent='✅ Đã lưu và bật câu hỏi trong bài học trên thiết bị này. Câu hỏi gốc không bị thay đổi; chưa đồng bộ tới các máy khác.';section.scrollIntoView({behavior:'smooth',block:'nearest'})}};
-reset.onclick=clean;render();
+actions.append(save);
+const reset=document.createElement('button');reset.type='button';reset.textContent='➕ Câu hỏi mới';actions.append(reset);
+const section=document.createElement('div');section.className='creative-bank';section.innerHTML='<h3>📚 Câu hỏi của tôi</h3><p class="creative-note">Lưu trên trình duyệt này; chưa đồng bộ tới các thiết bị khác. Có thể sửa, xóa hoặc bật/tắt từng câu. Câu hỏi gốc không bị thay đổi.</p><div id="creative-bank-items"></div>';
+box.append(section);
+const status=document.createElement('p');status.setAttribute('role','status');status.setAttribute('aria-live','polite');status.className='creative-save-status';actions.after(status);
+let edit=-1;const ids=['creative-grade','creative-lesson','creative-question','creative-a','creative-b','creative-c','creative-d','creative-correct'];
+function store(v){try{localStorage.setItem(key,JSON.stringify(v));return true}catch{status.textContent='⚠️ Không thể lưu trên trình duyệt này. Kiểm tra dung lượng và chế độ riêng tư.';return false}}
+function clean(){edit=-1;ids.slice(1).forEach(id=>get(id).value='');get('creative-correct').value='0';preview.hidden=true;save.textContent='💾 Lưu câu hỏi mới';status.textContent='';lesson.focus()}
+function data(){const q=ids.map(id=>get(id).value.trim());if(!q[1]||!q[2]||q.slice(3,7).some(v=>!v)){status.textContent='⚠️ Hãy nhập bài học, nội dung và đầy đủ bốn đáp án.';return null}const n=lessonId(q[1]);if(!n||!lessons(q[0]).includes(n)){status.textContent='⚠️ Bài học chưa hợp lệ với khối đã chọn. Hãy chọn theo danh sách gợi ý.';return null}if(new Set(q.slice(3,7).map(v=>v.toLocaleLowerCase('vi'))).size<4){status.textContent='⚠️ Bốn phương án trả lời cần khác nhau.';return null}q[1]='Bài '+n;return q}
+function render(){const items=get('creative-bank-items');items.replaceChildren();const all=load();const summary=document.createElement('p');summary.className='creative-note';summary.textContent=all.length+' câu đã lưu • '+all.filter(q=>q[8]!==false).length+' câu đang bật';items.append(summary);
+all.forEach((q,i)=>{const el=document.createElement('div');el.className='creative-saved-item';const label=document.createElement('p');label.textContent=(q[8]===false?'🔘 Tạm tắt • ':'✅ Đang bật • ')+'Tin học '+q[0]+' • '+q[1]+' — '+q[2];el.append(label);
+const e=document.createElement('button');e.type='button';e.textContent='✏️ Sửa';e.onclick=()=>{edit=i;ids.forEach((id,j)=>get(id).value=q[j]);refreshLessons();save.textContent='💾 Lưu thay đổi';status.textContent='Đang sửa câu hỏi '+(i+1)+'.';preview.hidden=true;box.scrollIntoView({behavior:'smooth',block:'start'});get('creative-question').focus()};
+const toggle=document.createElement('button');toggle.type='button';toggle.textContent=q[8]===false?'🔘 Bật câu hỏi':'✅ Tắt câu hỏi';toggle.onclick=()=>{const a=load();if(!a[i])return;a[i][8]=a[i][8]===false;if(store(a)){render();status.textContent=a[i][8]?'Đã bật câu hỏi cho bài học tương ứng trên thiết bị này.':'Đã tắt câu hỏi, bản lưu vẫn còn.'}};
+const del=document.createElement('button');del.type='button';del.textContent='🗑 Xóa';del.onclick=()=>{if(!confirm('Xóa vĩnh viễn câu hỏi này khỏi trình duyệt?'))return;const a=load();a.splice(i,1);if(store(a)){clean();render();status.textContent='Đã xóa câu hỏi.'}};
+el.append(e,toggle,del);items.append(el)});if(!all.length){const p=document.createElement('p');p.textContent='Chưa có câu hỏi nào. Hãy tạo câu hỏi đầu tiên ở phía trên.';items.append(p)}}
+save.onclick=()=>{const q=data();if(!q)return;const a=load();if(edit<0&&a.length>=300){status.textContent='⚠️ Thiết bị đã có 300 câu hỏi; hãy xóa câu không dùng trước khi thêm.';return}const duplicate=a.findIndex((v,i)=>i!==edit&&v[0]===q[0]&&lessonId(v[1])===lessonId(q[1])&&String(v[2]).trim().toLocaleLowerCase('vi')===q[2].toLocaleLowerCase('vi'));if(duplicate>=0){status.textContent='⚠️ Câu hỏi này đã có trong kho của bạn ('+a[duplicate][1]+').';return}
+const changed=edit>=0&&edit<a.length;if(changed){q[8]=a[edit][8]!==false;a[edit]=q}else{q[8]=true;a.unshift(q)}if(store(a)){clean();render();status.textContent=changed?'✅ Đã lưu thay đổi.':'✅ Đã lưu câu hỏi mới và bật trong đúng bài học trên trình duyệt này.';section.scrollIntoView({behavior:'smooth',block:'nearest'})}};
+reset.onclick=clean;
+const previewButton=get('creative-preview');previewButton.addEventListener('click',()=>{const q=data();if(!q){preview.hidden=true;return}preview.textContent='TIN HỌC '+q[0]+' • '+q[1]+'\n\n'+q[2]+'\n\n'+q.slice(3,7).map((v,i)=>String.fromCharCode(65+i)+'. '+v).join('\n')+'\n\n✔ Đáp án đúng: '+String.fromCharCode(65+Number(q[7]));preview.hidden=false;status.textContent='Đã xem trước. Nếu đúng, nhấn Lưu câu hỏi.'});
+render();
 })();
