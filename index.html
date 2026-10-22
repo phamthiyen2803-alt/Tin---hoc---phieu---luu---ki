@@ -199,6 +199,26 @@ body{background:radial-gradient(circle at 15% 4%,#bceaff 0,transparent 34%),radi
 .top .nav button:hover:not(.active){filter:saturate(1.18) brightness(.98)}
 .top .pill{background:linear-gradient(140deg,#fff4ba,#ffdc68);border:2px solid #efa900;color:#794606;box-shadow:0 4px 0 #e6b63c,0 6px 15px #ecb94460}
 .grade-welcome{background:linear-gradient(105deg,#e3f5ff 0%,#efe5ff 50%,#ffe8ed 100%)}
+
+/* Khung menu rong va ten website noi bat */
+@media(min-width:1200px){
+ .app{max-width:1760px;width:100%;padding-left:16px;padding-right:16px}
+ .top{width:100%;min-height:140px;padding:21px 27px;gap:24px}
+ .top .brand{font-size:clamp(29px,2.15vw,38px)!important;max-width:none;flex:0 0 auto;line-height:1.16;letter-spacing:-.6px}
+ .top .brand-icon{width:100px!important;height:100px!important}
+ .top .nav{gap:7px;justify-content:space-evenly;overflow-x:auto}
+ .top .nav button{font-size:clamp(14px,1.02vw,18px)!important;padding:14px 11px!important}
+ .top .pill{font-size:20px}
+}
+@media(min-width:1200px) and (max-width:1599px){
+ .top{flex-wrap:wrap;justify-content:space-between;row-gap:12px}
+ .top .brand{font-size:32px!important}
+ .top .nav{order:3;flex:1 0 100%;overflow-x:auto;justify-content:center}
+}
+@media(max-width:1199px){
+ .top .brand{font-size:clamp(25px,3vw,33px)!important}
+ .top .brand-icon{width:76px!important;height:76px!important}
+}
 </style></head><body><div class="app"><header class="top"><div class="brand"><div class="brand-icon"><img src="co-yen-tin-hoc.jpg" alt="Huy hiệu Cô Yến Tin học" width="60" height="60" loading="eager"></div><div>TIN HỌC <span style="color:#6e5de2">PHIÊU LƯU KÝ</span><div class="muted" style="font-size:11px;font-weight:600">AI dẫn lối • Em tự khám phá</div></div></div><nav class="nav" aria-label="Điều hướng"><button class="active" data-page="grade-gateway">🏠 Trang chủ</button><button data-page="map">🚀 Hành trình kỳ thú</button><button data-page="assistant">🤖 AI Mây</button><button data-page="submit-work">🎨 Góc trưng bày sản phẩm</button><button data-page="teacher">📈 Góc theo dõi kết quả</button></nav><button class="pill" id="stars">⭐ 0 sao</button></header>
 <main><section class="section shown" id="grade-gateway"><div class="grade-welcome"><span>🌈 CÙNG CÔ YẾN VÀ AI MÂY KHÁM PHÁ</span><h1>Chọn hành trình Tin học của em!</h1><p>Ba khối lớp – ba chặng phiêu lưu. Em hãy chọn đúng lớp để bắt đầu.</p><div class="student-profile-card"><div class="student-profile-info"><span class="student-profile-icon">🎒</span><div><strong>Hồ sơ học tập của em</strong><p id="student-profile-description">Nhập họ tên và lớp để lưu kết quả học tập.</p></div></div><button id="student-change" class="student-change" type="button">👤 Nhập thông tin của em →</button></div></div><div class="grade-cards"><button class="grade-card grade3" data-goto="home"><span class="grade-art">🚀💻</span><strong>TIN HỌC 3</strong><small>16 bài học • 480 câu hỏi</small><em>🌟 Bắt đầu phiêu lưu →</em></button><button class="grade-card grade4" data-goto="grade-4"><span class="grade-art">🌐🧩</span><strong>TIN HỌC 4</strong><small>Hành trình khám phá tiếp theo</small><em>✨ Khám phá lớp 4 →</em></button><button class="grade-card grade5" data-goto="grade-5"><span class="grade-art">🤖🏆</span><strong>TIN HỌC 5</strong><small>Hành trình chinh phục mới</small><em>✨ Khám phá lớp 5 →</em></button></div><div class="grade-note">🤖 AI Mây đồng hành cùng em! Nội dung lớp 4 và lớp 5 sẽ được bổ sung theo SGK Kết nối tri thức với cuộc sống.</div></section>
 <section class="section" id="grade-4"><div class="g4-header"><div class="g4-kicker">🌈 CÙNG AI MÂY KHÁM PHÁ • KẾT NỐI TRI THỨC</div><h1>🚀 Hành trình Tin học 4</h1><p>Khám phá sáu thế giới tri thức theo đúng thứ tự trong sách giáo khoa. Chọn một bài đã mở để bắt đầu!</p><div class="g4-stats"><span>📚 6 chủ đề</span><span>🧭 16 bài chính + 12A, 12B</span><span>⭐ 17 bài học • Câu hỏi và đáp án đảo mỗi lượt</span></div></div><div class="g4-map" id="grade4-map"></div><div class="g4-footer"><button class="btn secondary" data-goto="grade-gateway">← Chọn lớp khác</button><span>🤖 AI Mây đồng hành – Em tự mình khám phá!</span></div></section>
