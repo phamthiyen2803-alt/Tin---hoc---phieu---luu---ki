@@ -12,13 +12,13 @@ module.exports=async function handler(req,res){
  if(b.action==='submit'){
   if(!validText(b.name,70)||!validText(b.cls,20)||!['3','4','5'].includes(String(b.grade))||!validText(b.lesson,120)||!Number.isInteger(b.score)||!Number.isInteger(b.total)||b.total<1||b.total>100||b.score<0||b.score>b.total)return json(res,400,{error:'Thông tin kết quả không hợp lệ.'});
   const payload={student_name:b.name.trim(),class_name:b.cls.trim(),grade:String(b.grade),lesson:b.lesson.trim(),score:b.score,total:b.total};
-  try{const r=await fetch(url()+'/rest/v1/learning_results',{method:'POST',headers:{apikey:key(),...(key().startsWith('sb_secret_')?{}:{Authorization:'Bearer '+key()}),'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(payload)});if(!r.ok)throw Error('database');return json(res,201,{ok:true})}catch{return json(res,503,{error:'Chưa lưu được kết quả lên hệ thống chung.'})}
+  try{const r=await fetch(url()+'/rest/v1/learning_results',{method:'POST',headers:{apikey:key(),...(key().startsWith('sb_secret_')?{}:{Authorization:'Bearer '+key()}),'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(payload)});if(!r.ok)return json(res,503,{error:'Supabase từ chối lưu điểm (HTTP '+r.status+').',sourceStatus:r.status});return json(res,201,{ok:true})}catch{return json(res,503,{error:'Chưa lưu được kết quả lên hệ thống chung.'})}
  }
  if(b.action==='report'){
   if(!auth(b.password))return json(res,403,{error:'Mật khẩu giáo viên không đúng hoặc chưa cấu hình.'});
   const grade=['3','4','5'].includes(String(b.grade))?String(b.grade):'';
   const query='/rest/v1/learning_results?select=created_at,student_name,class_name,grade,lesson,score,total&order=created_at.desc&limit=1000'+(grade?'&grade=eq.'+grade:'');
-  try{const r=await fetch(url()+query,{headers:{apikey:key(),...(key().startsWith('sb_secret_')?{}:{Authorization:'Bearer '+key()})}});if(!r.ok)throw Error('database');return json(res,200,{rows:await r.json(),limit:1000})}catch{return json(res,503,{error:'Không tải được báo cáo.'})}
+  try{const r=await fetch(url()+query,{headers:{apikey:key(),...(key().startsWith('sb_secret_')?{}:{Authorization:'Bearer '+key()})}});if(!r.ok)return json(res,503,{error:'Supabase từ chối đọc báo cáo (HTTP '+r.status+').',sourceStatus:r.status});return json(res,200,{rows:await r.json(),limit:1000})}catch{return json(res,503,{error:'Không tải được báo cáo.'})}
  }
  return json(res,400,{error:'Yêu cầu không hợp lệ.'});
 };
