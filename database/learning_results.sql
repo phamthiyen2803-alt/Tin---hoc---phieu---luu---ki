@@ -13,3 +13,8 @@ create index if not exists learning_results_grade_class_idx on public.learning_r
 alter table public.learning_results enable row level security;
 revoke all on table public.learning_results from anon, authenticated;
 -- Chỉ Vercel API sử dụng SUPABASE_SERVICE_ROLE_KEY ở môi trường máy chủ.
+
+-- Bổ sung tên trường cho dữ liệu kết quả hiện có (chạy trong Supabase SQL Editor).
+alter table public.learning_results add column if not exists school_name varchar(150);
+create index if not exists learning_results_school_idx on public.learning_results (school_name,created_at desc);
+-- Để NULL với các lượt làm bài cũ chưa có thông tin trường.
