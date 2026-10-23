@@ -6,7 +6,7 @@ const good=(v,max)=>typeof v==='string'&&v.trim().length>0&&v.trim().length<=max
 async function call(route,method,body,token,prefer){
  const r=await fetch(base()+route,{method,headers:{apikey:secret(),...(secret().startsWith('sb_secret_')?{}:{Authorization:'Bearer '+secret()}),'Content-Type':'application/json',...(prefer?{Prefer:prefer}:{})},...(body?{body:JSON.stringify(body)}:{})});
  const txt=await r.text();let data=null;try{data=txt?JSON.parse(txt):null}catch{}
- if(!r.ok)throw Object.assign(new Error('REMOTE'),{status:r.status});return data;
+ if(!r.ok)throw Object.assign(new Error('REMOTE'),{status:r.status,remoteCode:String(data?.code||data?.error_code||'').slice(0,100)});return data;
 }
 module.exports=async(req,res)=>{
  if(req.method!=='POST')return send(res,405,{error:'Chỉ hỗ trợ POST.'});
@@ -17,7 +17,17 @@ module.exports=async(req,res)=>{
    if(!good(b.email,254)||!/^\S+@\S+\.\S+$/.test(b.email)||typeof b.password!=='string'||b.password.length<10||b.password.length>128)return send(res,400,{error:'Email hoặc mật khẩu không hợp lệ (tối thiểu 10 ký tự).'});
    if(action==='register'&&(!good(b.name,100)||!good(b.school,150)))return send(res,400,{error:'Nhập tên giáo viên và tên trường.'});
    const url=action==='register'?'/auth/v1/signup':'/auth/v1/token?grant_type=password';
-   let auth;try{auth=await call(url,'POST',{email:b.email.trim().toLowerCase(),password:b.password,...(action==='register'?{data:{display_name:b.name.trim(),school_name:b.school.trim()}}:{})})}catch{return send(res,400,{error:action==='register'?'Chưa tạo được tài khoản. Kiểm tra email, mật khẩu hoặc cấu hình Supabase Auth.':'Sai tài khoản, mật khẩu hoặc email chưa xác nhận.'})}
+   let auth;try{auth=await call(url,'POST',{email:b.email.trim().toLowerCase(),password:b.password,...(action==='register'?{data:{display_name:b.name.trim(),school_name:b.school.trim()}}:{})})}catch(err){
+    const code=err?.remoteCode||'';
+    let message=action==='register'?'Không thể đăng ký tài khoản. Vui lòng kiểm tra địa chỉ email và thử lại.':'Email, mật khẩu không đúng hoặc email chưa được xác nhận.';
+    if(err?.status===429||/rate_limit|over_email_send/i.test(code))message='Có quá nhiều yêu cầu. Hãy thử lại sau ít phút.';
+    else if(/signup_disabled/i.test(code))message='Hệ thống chưa bật cho phép đăng ký tài khoản giáo viên trong Supabase Auth.';
+    else if(/email_exists|user_already_exists|user_already_registered/i.test(code))message='Email này đã được đăng ký. Hãy dùng nút Đăng nhập hoặc đặt lại mật khẩu.';
+    else if(/email_address_invalid|email_provider_disabled/i.test(code))message='Địa chỉ email không hợp lệ hoặc hệ thống chưa cấu hình gửi email xác nhận.';
+    else if(/captcha/i.test(code))message='Hệ thống đang yêu cầu CAPTCHA nhưng giao diện đăng ký chưa hỗ trợ. Cần kiểm tra cấu hình Supabase Auth.';
+    else if(err?.status>=500)message='Dịch vụ xác thực đang gặp lỗi cấu hình hoặc lỗi máy chủ. Cần kiểm tra Supabase Auth.';
+    return send(res,err?.status===429?429:400,{error:message,authCode:code||undefined});
+   }
    return send(res,200,{ok:true,token:auth?.access_token||null,requiresConfirmation:!auth?.access_token,expiresIn:auth?.expires_in||3600});
   }
   const token=String(req.headers.authorization||'').replace(/^Bearer\s+/i,'');
