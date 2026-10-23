@@ -383,7 +383,7 @@ async function loadSecureReport(){
  try{
   const r=await fetch('/api/results',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'report',password:reportPassword,grade:$('report-grade').value})});
   const body=await r.json();if(!r.ok)throw Error(body.error||'Chưa tải được báo cáo');
-  secureReportRows=body.rows||[];$('teacher-content').classList.remove('hidden');$('teacher-error').textContent='';fillSchools();fillClasses();
+  secureReportRows=body.rows||[];$('teacher-content').classList.remove('hidden');$('teacher-error').textContent='';fillSchools();fillClasses();if(body.schoolPendingMigration){$('report-status').textContent='⚠️ Cơ sở dữ liệu chưa có cột Tên trường. Cần bổ sung school_name trong Supabase để báo cáo ghi nhận tên trường.'}else if(secureReportRows.length&&!secureReportRows.some(row=>row.school_name)){$('report-status').textContent='⚠️ Các lượt làm bài đang hiển thị chưa có dữ liệu tên trường. Hãy kiểm tra một bài làm mới sau khi cập nhật Supabase; không thể tự suy ra trường cho bài cũ.'}
  }catch(e){$('report-status').textContent=e.message;$('teacher-error').textContent=e.message}
 }
 $('teacher-unlock').onclick=()=>{reportPassword=$('teacher-pin').value;loadSecureReport()};
