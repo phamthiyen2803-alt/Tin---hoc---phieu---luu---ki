@@ -63,7 +63,7 @@ module.exports=async(req,res)=>{
   if(action==='saveQuestion'){
    const classes=await call(tbl('thdk_classes')+'?id=eq.'+eq(String(b.classId||''))+'&teacher_id=eq.'+eq(uid)+'&select=*','GET');
    const cls=classes?.[0];if(!cls)return send(res,403,{error:'Bạn không có quyền sử dụng lớp này.'});
-   if(!good(b.lesson,100)||!good(b.question,600)||!Array.isArray(b.answers)||b.answers.length!==4||b.answers.some(x=>!good(x,200))||!Number.isInteger(b.correct)||b.correct<0||b.correct>3)return send(res,400,{error:'Nội dung câu hỏi hoặc đáp án không hợp lệ.'});
+   if(!good(b.lesson,100)||!good(b.question,600)||!Array.isArray(b.answers)||b.answers.length!==4||b.answers.some(x=>!good(x,200))||new Set(b.answers.map(x=>x.trim().toLocaleLowerCase('vi'))).size!==4||!Number.isInteger(b.correct)||b.correct<0||b.correct>3)return send(res,400,{error:'Nội dung câu hỏi hoặc đáp án không hợp lệ.'});
    const payload={teacher_id:uid,class_id:cls.id,grade:cls.grade,lesson:b.lesson.trim(),question:b.question.trim(),answers:b.answers.map(x=>x.trim()),correct:b.correct,enabled:b.enabled!==false};
    let item;
    if(b.id){if(!/^[0-9a-f-]{36}$/i.test(b.id))return send(res,400,{error:'Mã câu hỏi không hợp lệ.'});const rows=await call(tbl('thdk_questions')+'?id=eq.'+eq(b.id)+'&teacher_id=eq.'+eq(uid),'PATCH',payload,null,'return=representation');item=rows?.[0];if(!item)return send(res,404,{error:'Không tìm thấy câu hỏi thuộc tài khoản.'})}
