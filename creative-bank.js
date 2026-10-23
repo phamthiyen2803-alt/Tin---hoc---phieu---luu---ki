@@ -3,7 +3,16 @@ const key='thdk_teacher_drafts_v1',get=id=>document.getElementById(id);
 function lessonId(raw){const m=String(raw||'').trim().match(/^(?:bài\s*)?(\d{1,2}[a-b]?)\b/i);return m?m[1].toUpperCase():null}
 function lessons(grade){const a=Array.from({length:16},(_,i)=>String(i+1));if(grade==='4')a.splice(12,0,'12A','12B');if(grade==='5'){a.splice(9,0,'9A','9B');a.splice(8,0,'8A','8B')}return a}
 function load(){try{const a=JSON.parse(localStorage.getItem(key)||'[]');return Array.isArray(a)?a.filter(q=>Array.isArray(q)&&q.length>=8):[]}catch{return []}}
-window.thdkExtraQuestions=function(grade,lesson){try{return load().filter(q=>String(q[0])===String(grade)&&lessonId(q[1])===String(lesson).toUpperCase()&&q[8]!==false&&q.slice(2,7).every(x=>typeof x==='string'&&x.trim())&&/^[0-3]$/.test(String(q[7]))).map(q=>[q[2],q.slice(3,7),Number(q[7]),'Đáp án đúng: '+q[Number(q[7])+3]])}catch{return []}};
+let shared=[];
+function mapQuestion(q){return [q[2],q.slice(3,7),Number(q[7]),'Đáp án đúng: '+q[Number(q[7])+3]]}
+window.thdkExtraQuestions=function(grade,lesson){try{
+ const local=load().filter(q=>String(q[0])===String(grade)&&lessonId(q[1])===String(lesson).toUpperCase()&&q[8]!==false&&q.slice(2,7).every(x=>typeof x==='string'&&x.trim())&&/^[0-3]$/.test(String(q[7])));
+ const global=shared.filter(q=>String(q.grade)===String(grade)&&String(q.lesson).toUpperCase()===String(lesson).toUpperCase()).map(q=>[q.grade,'Bài '+q.lesson,q.question,...q.answers,q.correct,true]);
+ const ids=new Set();return local.concat(global).filter(q=>{const id=String(q[0])+'|'+String(q[1])+'|'+String(q[2]).trim().toLocaleLowerCase('vi');if(ids.has(id))return false;ids.add(id);return true}).map(mapQuestion)
+}catch{return []}};
+async function refreshShared(){const r=await fetch('/api/shared-questions',{cache:'no-store'});if(!r.ok)throw Error('Chưa kết nối kho câu hỏi chung');const data=await r.json();if(!Array.isArray(data.questions))throw Error('Dữ liệu kho chung chưa hợp lệ');shared=data.questions.filter(q=>q&&Array.isArray(q.answers)&&q.answers.length===4);return shared.length}
+refreshShared().catch(()=>{});
+
 const box=get('creative-question-content');if(!box)return;
 const grade=get('creative-grade'),lesson=get('creative-lesson'),preview=get('creative-preview-output'),actions=box.querySelector('.creative-actions');
 const hint=document.createElement('p');hint.className='creative-note';hint.textContent='Bước 1: Chọn khối và bài học → Bước 2: Nhập câu hỏi → Bước 3: Xem trước và lưu. Chọn Bật để câu hỏi xuất hiện trong lượt luyện tập trên thiết bị này.';
@@ -22,6 +31,17 @@ const exportBtn=document.createElement('button');exportBtn.type='button';exportB
 const importBtn=document.createElement('button');importBtn.type='button';importBtn.textContent='⬆️ Nhập bộ câu hỏi (.json)';
 const fileInput=document.createElement('input');fileInput.type='file';fileInput.accept='.json,application/json';fileInput.hidden=true;
 backup.append(exportBtn,importBtn,fileInput);box.append(backup);
+const cloud=document.createElement('div');cloud.className='creative-backup';
+const cloudHeader=document.createElement('h4');cloudHeader.textContent='☁️ Đồng bộ câu hỏi nhiều thiết bị';
+const cloudInfo=document.createElement('p');cloudInfo.className='creative-note';cloudInfo.textContent='Quản trị viên nhập mã quản trị báo cáo để đưa câu hỏi vào kho chung. Học sinh trên các máy khác sẽ thấy câu hỏi sau khi tải lại website. Câu gốc không thay đổi.';
+const cloudPass=document.createElement('input');cloudPass.type='password';cloudPass.placeholder='Mã quản trị báo cáo';cloudPass.autocomplete='off';cloudPass.setAttribute('aria-label','Mã quản trị để đồng bộ câu hỏi');cloudPass.style.cssText='padding:10px;border:1px solid #ccd6ef;border-radius:10px;max-width:250px';
+const upload=document.createElement('button');upload.type='button';upload.textContent='☁️ Đồng bộ câu hỏi đã lưu';
+const reload=document.createElement('button');reload.type='button';reload.textContent='🔄 Kiểm tra kho chung';
+const cloudStatus=document.createElement('p');cloudStatus.className='creative-note';cloudStatus.setAttribute('role','status');
+cloud.append(cloudHeader,cloudInfo,cloudPass,upload,reload,cloudStatus);box.append(cloud);
+upload.onclick=async()=>{const all=load();if(!all.length){cloudStatus.textContent='Chưa có câu hỏi để đồng bộ.';return}if(!cloudPass.value){cloudStatus.textContent='Vui lòng nhập mã quản trị.';return}upload.disabled=true;try{const r=await fetch('/api/shared-questions',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:cloudPass.value,questions:all})});const v=await r.json();if(!r.ok)throw Error(v.error||'Đồng bộ không thành công');cloudStatus.textContent='✅ Đã đồng bộ '+v.count+' câu hỏi lên kho chung. Hãy tải lại trang trên máy học sinh.';cloudPass.value='';await refreshShared()}catch(e){cloudStatus.textContent='⚠️ '+e.message}finally{upload.disabled=false}};
+reload.onclick=async()=>{try{const n=await refreshShared();cloudStatus.textContent='✅ Kho chung có '+n+' câu đang bật.'}catch(e){cloudStatus.textContent='⚠️ '+e.message}};
+
 function validRow(row){if(!Array.isArray(row)||row.length<8)return null;const q=row.slice(0,8).map(v=>String(v||'').trim());const n=lessonId(q[1]);if(!['3','4','5'].includes(q[0])||!n||!lessons(q[0]).includes(n)||!q[2]||q.slice(3,7).some(x=>!x)||!/^[0-3]$/.test(q[7]))return null;if(new Set(q.slice(3,7).map(x=>x.toLocaleLowerCase('vi'))).size!==4)return null;if(q.some(x=>x.length>600))return null;q[1]='Bài '+n;q[8]=row[8]!==false;return q}
 function rowKey(q){return q[0]+'|'+lessonId(q[1])+'|'+q[2].trim().toLocaleLowerCase('vi')}
 exportBtn.addEventListener('click',()=>{const rows=load();if(!rows.length){status.textContent='Chưa có câu hỏi nào để xuất.';return}const blob=new Blob([JSON.stringify({format:'thdk-teacher-questions',version:1,exportedAt:new Date().toISOString(),questions:rows},null,2)],{type:'application/json;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='tin-hoc-dieu-ky-cau-hoi-'+new Date().toISOString().slice(0,10)+'.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);status.textContent='✅ Đã chuẩn bị tệp sao lưu '+rows.length+' câu hỏi.'});
