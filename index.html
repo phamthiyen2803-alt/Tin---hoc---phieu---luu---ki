@@ -320,6 +320,9 @@ body{background:radial-gradient(circle at 15% 4%,#bceaff 0,transparent 34%),radi
 .school-visit-pending{margin-top:auto;padding:7px 12px;border-radius:999px;background:#eef3fa;color:#66768e;font-size:12px;font-weight:700}
 @media(max-width:700px){.school-visit{margin:28px auto;padding:22px 14px}.school-visit-grid{grid-template-columns:1fr}.school-visit-item{min-height:150px}}
 
+/* School panel first at upper-left; creative tools remain on the right */
+@media(min-width:1101px){.creative-school-layout{grid-template-columns:minmax(275px,1fr) minmax(0,2fr);align-items:start}.creative-school-layout>.school-visit{grid-column:1;grid-row:1;align-self:start}.creative-school-layout>.creative-station{grid-column:2;grid-row:1}}
+@media(max-width:1100px){.creative-school-layout>.school-visit{order:-1}}
 /* Independent school-visit panel positioned beside creative station */
 .creative-school-layout{display:grid;grid-template-columns:minmax(0,2fr) minmax(275px,1fr);gap:20px;align-items:stretch;margin:34px 0 24px}
 .creative-school-layout>.creative-station,.creative-school-layout>.school-visit{min-width:0;width:100%;box-sizing:border-box;margin:0}
