@@ -918,4 +918,72 @@ renderGrade5();
  document.querySelectorAll('[data-creative]').forEach(btn=>btn.addEventListener('click',()=>{const selected=btn.getAttribute('data-creative')==='class';pane.hidden=!selected;if(selected){document.getElementById('creative-soon-content').hidden=true;render()}}));
  form.addEventListener('submit',e=>{e.preventDefault();const v=id=>document.getElementById(id).value.trim();const school=v('creative-school'),name=v('creative-class-name'),grade=v('creative-class-grade'),year=v('creative-school-year');if(!school||!name)return;const id=String(Date.now())+'-'+Math.random().toString(36).slice(2,8);classes.push({id,school,name,grade,year});if(persist(classes)){status.textContent='Đã tạo lớp học thử '+name+' trên trình duyệt này. Chưa có mã tham gia hoạt động.';form.reset()}render()});render();
 })();
-</script><script src="teacher-cloud.js?v=1" defer></script></body></html>
+</script><script src="teacher-cloud.js?v=1" defer></script>
+<style>
+#teacher-code-gate[hidden]{display:none!important}
+#teacher-code-gate{position:fixed;inset:0;z-index:99999;background:#182453ab;display:flex;align-items:center;justify-content:center;padding:16px}
+#teacher-code-dialog{width:min(100%,420px);padding:26px;border-radius:22px;background:#fff;box-shadow:0 20px 75px #121a4c66;text-align:center;color:#203361}
+#teacher-code-dialog h3{font-size:23px;margin:8px 0}#teacher-code-dialog p{line-height:1.5}
+#teacher-code-input{width:100%;max-width:none;margin:9px 0;padding:13px;border:1px solid #bcc9ea;border-radius:12px}
+#teacher-code-error{min-height:24px;color:#a52b38;font-size:14px}
+#teacher-code-dialog .gate-actions{display:flex;gap:10px;justify-content:center}
+#teacher-code-dialog button{padding:12px 17px;border-radius:12px;border:0;background:#4567ec;color:white;font-weight:700}
+#teacher-code-dialog button[type=button]{background:#edf0fb;color:#243965}
+</style>
+<div id="teacher-code-gate" hidden role="dialog" aria-modal="true" aria-labelledby="teacher-code-heading">
+  <form id="teacher-code-dialog">
+    <div style="font-size:40px" aria-hidden="true">🔐</div>
+    <h3 id="teacher-code-heading">Khu vực dành cho giáo viên</h3>
+    <p>Nhập mã truy cập để mở chức năng tạo và chỉnh sửa câu hỏi.</p>
+    <input id="teacher-code-input" type="password" autocomplete="off" maxlength="128" placeholder="Mã truy cập giáo viên" required aria-label="Mã truy cập giáo viên">
+    <div id="teacher-code-error" role="status" aria-live="polite"></div>
+    <div class="gate-actions"><button type="button" id="teacher-code-cancel">Đóng</button><button type="submit" id="teacher-code-submit">Mở khóa</button></div>
+  </form>
+</div>
+<script>
+(function(){
+  'use strict';
+  let unlocked=false, questionButton=null, busy=false;
+  const gate=document.getElementById('teacher-code-gate');
+  const form=document.getElementById('teacher-code-dialog');
+  const field=document.getElementById('teacher-code-input');
+  const status=document.getElementById('teacher-code-error');
+  const submit=document.getElementById('teacher-code-submit');
+  const close=()=>{gate.hidden=true;field.value='';status.textContent='';questionButton=null;};
+  document.getElementById('teacher-code-cancel').addEventListener('click',close);
+  gate.addEventListener('click',e=>{if(e.target===gate)close()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!gate.hidden)close()});
+  document.addEventListener('click',e=>{
+    const btn=e.target.closest('[data-creative="question"]');
+    if(!btn||unlocked)return;
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+    questionButton=btn;
+    gate.hidden=false;
+    field.focus();
+  },true);
+  form.addEventListener('submit',async e=>{
+    e.preventDefault();
+    if(busy)return;
+    busy=true;submit.disabled=true;status.textContent='Đang kiểm tra mã...';
+    try{
+      const response=await fetch('/api/teacher-access',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:field.value}),cache:'no-store'});
+      const result=await response.json();
+      if(response.ok&&result.ok){
+        unlocked=true;
+        const btn=questionButton;
+        close();
+        if(btn)btn.click();
+      }else if(response.status===503){
+        status.textContent='Chưa cấu hình mã giáo viên trên Vercel. Vui lòng liên hệ người quản trị.';
+      }else{
+        status.textContent='Mã không đúng. Vui lòng thử lại.';
+        field.select();
+      }
+    }catch(err){status.textContent='Không thể xác thực lúc này. Vui lòng thử lại.'}
+    finally{busy=false;submit.disabled=false}
+  });
+})();
+</script>
+</body></html>
