@@ -454,6 +454,7 @@ document.getElementById('student-form').addEventListener('submit',e=>{
 });
 document.getElementById('student-cancel').addEventListener('click',()=>{document.getElementById('student-overlay').hidden=true;afterStudent=null});
 document.getElementById('student-change').addEventListener('click',()=>{currentStudent=null;document.getElementById('student-name').value='';document.getElementById('student-class').value='';document.getElementById('student-school').value='';requireStudent(()=>{})});
+document.querySelectorAll('a.typing-feature').forEach(link=>link.addEventListener('click',()=>{if(currentStudent){try{sessionStorage.setItem('tinHocTypingProfile',JSON.stringify(currentStudent))}catch{}}}));
 function recordStudentResult(grade,lesson,score,total){
  if(!currentStudent)return;
  let rows=[];try{rows=JSON.parse(localStorage.getItem('tinHocStudentResults')||'[]');if(!Array.isArray(rows))rows=[]}catch{}
